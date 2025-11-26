@@ -147,4 +147,121 @@ twoway (rcap ul ll id, lcolor(gs12) lwidth(medthin)) ///
        ytitle("Adjusted Treatment Effect", size(medium)) ///
        legend(off) graphregion(color(white))
 
+/*=============================Placebo Test===================================*/
+use "data_after_cleaning.dta", clear
+reghdfe ln_NO2 treatment_post temp windspeed winddirection pressure rh precipitation ln_cloudfraction is_holiday, absorb(sitenum dow month) vce(cluster sitenum)
+estimates store main_did
+
+//ssc install permute
+//help permute
+ 
+permute treatment_post beta=_b[treatment_post] se=_se[treatment_post] df=e(df_r), reps(588) seed(1008) saving("stimulations.dta"): reghdfe ln_NO2 treatment_post temp windspeed winddirection pressure rh precipitation ln_cloudfraction is_holiday, absorb(sitenum dow month ) vce(cluster sitenum)
+
+use "stimulations.dta", clear
+
+ssc install dpplot
+/*#delimit ;
+dpplot beta, xline(-0.0961978, lc(black*0.5) lp(dash))
+             xline(0, lc(black*0.5) lp(solid))
+             xtitle("Estimator", size(*0.8)) 
+             xlabel(-0.1(0.02)0.1, format(%5.3f) labsize(small))
+             ytitle("Density", size(*0.8)) 
+             ylabel(, nogrid format(%3.0f) labsize(small)) 
+             note("") caption("") 
+             graphregion(fcolor(white)) ;
+#delimit cr
+graph export "Placebo Test.png", width(1000) replace
+
+#delimit ;*/
+
+#delimit ;
+
+dpplot beta, 
+  
+    xline(-0.0961978, lcolor(cranberry) lpattern(dash) lwidth(medthick))
+    xline(0, lcolor(gs6) lpattern(solid) lwidth(medium))
+    
+ 
+    color(navy%50) recast(area)
+    lcolor(navy) lwidth(medium)
+    
+
+    xtitle("2×2 DD Estimate", size(small))
+    xlabel(-0.10(0.02)0.10, format(%4.2f) labsize(vsmall))
+    
+
+    ytitle("Density", size(small))
+    ylabel(0(50)150, format(%3.0f) labsize(vsmall) angle(horizontal) nogrid)
+    
+
+    legend(order(1 "Placebo estimates" 
+                 2 "True effect (β̂=-0.096)" 
+                 3 "Null (β=0)")
+           position(2) ring(0) cols(1) size(vsmall)
+           region(lcolor(gs12) fcolor(white%90) lwidth(vthin))
+           symxsize(*.6) rowgap(*.5))
+    
+
+    note("Notes: Dashed line shows actual treatment effect; solid line indicates null hypothesis.",size(vsmall))
+
+    graphregion(color(white) margin(small))
+    plotregion(lcolor(black) lwidth(thin) margin(small))
+    
+    scheme(s1mono) ;
+
+#delimit cr
+
+graph export "placebo_paper.png", replace width(2400) height(1800)
+graph export "placebo_paper.eps", replace
+
+
+// Export
+graph export "permutation_test.png", replace width(3000)
+graph export "permutation_test.eps", replace
+graph export "permutation_test.pdf", replace
+
+//=========================Regression by sitetype=============================//
+//merge datasets
+merge m:1 sitecode using "sitetype_sitename.dta"
+
+save "F:\Onedrive映射\1kcl\ESG\7QQMM906 Environmental Economics\Group Assessment\data after cleaning\data_after_cleaning.dta", replace
+
+use "F:\Onedrive映射\1kcl\ESG\7QQMM906 Environmental Economics\Group Assessment\data after cleaning\data_after_cleaning.dta", replace
+encode sitetype, generate(siteype_num)
+
+tab siteype_num
+
+use "F:\Onedrive映射\1kcl\ESG\7QQMM906 Environmental Economics\Group Assessment\data after cleaning\data_after_cleaning.dta", clear
+
+
+* 1.Main DID
+reghdfe ln_NO2 treatment_post temperature windspeed winddirection pressure rh precipitation ln_cloudfraction is_holiday, absorb(sitenum dow month) vce(cluster sitenum)
+estimates store main_did
+
+* 2. Heterogeneity by Site Type
+foreach type in "Roadside" "Urban Background" "Kerbside" "Suburban" "Industrial" {
+    quietly reghdfe ln_NO2 treatment_post temp windspeed winddirection pressure rh precipitation ln_cloudfraction is_holiday,  absorb(sitenum dow month) vce(cluster sitenum), if sitetype == "`type'"
+    
+    estimates store `=subinstr("`type'", " ", "_", .)'
+}
+
+* 3. Export
+esttab main_did Roadside Urban_Background Kerbside Suburban Industrial ///
+    using "full_regression_table1.rtf", ///
+    replace rtf ///
+    keep(treatment_post temperature windspeed winddirection pressure rh precipitation ln_cloudfraction ls_holiday) ///
+    order(treatment_post temperature windspeed winddirection pressure rh precipitation ln_cloudfraction ls_holiday) ///
+    b(4) se(4) star(* 0.10 ** 0.05 *** 0.01) ///
+    mtitles("All Sites" "Roadside" "Urban BG" "Kerbside" "Suburban" "Industrial") ///
+    mgroups("Main did" "Heterogeneity by Site Type", ///
+            pattern(1 1 0 0 0 0) ///
+            prefix(\multicolumn{@span}{c}{) suffix(}) ///
+            span erepeat(\cmidrule(lr){@span})) ///
+    title("Table: DID Estimates and Heterogeneity by Site Type") ///
+    addnote("Standard errors clustered at site level in parentheses." ///
+            "All models include site, month, and day-of-week fixed effects." ///
+            "* p<0.10, ** p<0.05, *** p<0.01") ///
+    stats(N r2, fmt(%9.0fc %9.3f) ///
+          labels("Observations" "R-squared")) ///
+    label
 	  
