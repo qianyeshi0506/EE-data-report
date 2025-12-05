@@ -89,29 +89,7 @@ Meteorological variables used as controls:
 
 ---
 
-# 🧠 Methodology Summary
 
-<details>
-<summary><b>📌 Click to expand</b></summary>
-
-### ✔ Data Preprocessing
-- Merging NO₂ + meteorological variables  
-- Creating treatment, post, and DID interaction terms  
-- Winsorizing 1–99th percentile  
-- Holiday dummy, time fixed effects  
-- Log-transform of NO₂  
-
-### ✔ Econometric Framework
-- **Difference-in-Differences (DID)**  
-- **Event Study (pre-trend & dynamic effects)**  
-- **Permutation-based placebo test**  
-- **Heterogeneity across station types**  
-
-### ✔ Software
-- Google Earth Engine (JavaScript)
-- Stata 17 (reghdfe, coefplot, dpplot)
-
-</details>
 
 # 📁 Repository Structure
 
@@ -141,7 +119,6 @@ Meteorological variables used as controls:
 </details>
 
 ---
-
 # 🧠 Methodology Summary
 
 <details>
