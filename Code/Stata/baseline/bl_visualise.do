@@ -25,7 +25,7 @@
 *----------------------------------------------------------------------
 
 * 1. Prepare Data
-use "data_after_cleaning.dta", clea
+use "data_after_cleaning.dta", clear
 
 * Set plot scheme (Concise black & white style preferred by top journals)
 set scheme s1mono
@@ -281,3 +281,4 @@ preserve
            
     graph export "$output/Fig_Scatter_Temp_NO2.png", replace width(2400)
 restore
+
