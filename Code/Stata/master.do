@@ -111,6 +111,13 @@ if (1) {
 	do "$code/bl_descriptive statistics.do"
 }
 
+* 4.2 Visualisation (Graphs)  
+* TASK: Generate Time Series, Scatter Plots, Facet Grids, and Box Plots.
+if (1) {
+	noisily display as text ">>> Step 4.2: Generating Visualisations (bl_visualise.do)..."
+	do "$code/bl_visualise.do"
+}
+
 *======================================================================
 * PART 5: Main Analysis
 *======================================================================
@@ -148,4 +155,5 @@ if (1) {
 
 * End of execution
 display as result ">>> MASTER FILE EXECUTION COMPLETED SUCCESSFULLY. <<<"
+
 ***********************************************************************
