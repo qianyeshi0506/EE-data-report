@@ -98,26 +98,44 @@ Meteorological variables used as controls:
 
 <pre>
 📁 Group_6
- ┣ 📂 Code
- ┃ ┣ 📄 Master_file.do            — Main master script (runs all sub-scripts)
- ┃ ┣ 📄 Import.do                 — Data import script
- ┃ ┣ 📄 Clean.do                  — Data cleaning script
- ┃ ┣ 📄 Test.do                   — Data correction / transformation
- ┃ ┣ 📄 Merge.do                  — Dataset merging script
- ┃ ┣ 📄 Generate.do               — Variable generation
- ┃ ┣ 📄 Visualize.do              — Figure generation
- ┃ ┗ 📄 Regress.do                — Regression analysis
- │
- ┣ 📂 Data
- ┃ ┣ 📁 raw                       — Raw datasets (e.g., GEE data, ERA5)
- ┃ ┗ 📁 processed                 — Cleaned & analysis-ready datasets
- │
- ┣ 📂 Output
- ┃ ┣ 📁 Figures                   — Figures (named consistently with report: Fig1, Fig2…)
- ┃ ┣ 📁 Tables                    — Tables (named consistently with report: Table1…)
- ┃ ┗ 📄 final_report.pdf          — Final project report
- │
- ┗ 📘 README.md                   — This documentation file
+│
+├─ 📂 Code
+│   │
+│   ├─ 📂 Google Earth Engine
+│   │   ├─ master.js (if applicable)
+│   │   └─ 📂 baseline
+│   │       └─ (baseline GEE scripts)
+│   │
+│   └─ 📂 Stata
+│       ├─ master.do                 
+│       │
+│       └─ 📂 baseline               
+│           ├─ bl_cleaning.do
+│           ├─ bl_descriptive statistics.do
+│           ├─ bl_eventstudy.do
+│           ├─ bl_generate.do
+│           ├─ bl_merge.do
+│           ├─ bl_placebotest.do
+│           ├─ bl_regression.do
+│           ├─ bl_test.do
+│           └─ bl_visualise.do
+│
+├─ 📂 Data
+│   ├─ 📂 Google Earth Engine
+│   │   ├─ 📂 Data_raw_GEE          — Raw GEE exports
+│   │   └─ 📂 Data_processed_GEE    — Processed GEE datasets
+│   │
+│   └─ 📂 Stata
+│       ├─ 📂 Data_raw_Stata        — Raw Stata data
+│       └─ 📂 Data_processed_Stata  — Cleaned & merged datasets
+│
+├─ 📂 Output
+│   ├─ 📂 Output_GEE                — Maps / figures from GEE
+│   ├─ 📂 Output_Stata              — Figures & tables generated using Stata
+|   └─ 📂 Report
+│
+└─ 📘 README.md                     — Project documentation
+
 </pre>
 
 </details>
