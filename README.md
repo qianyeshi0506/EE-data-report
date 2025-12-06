@@ -98,22 +98,26 @@ Meteorological variables used as controls:
 
 <pre>
 📁 Group_6
- ┣ 📂 data
- ┃ ┣ 📁 raw               — Raw GEE exports (NO2, ERA5)
- ┃ ┗ 📁 processed         — Cleaned & merged panel datasets
+ ┣ 📂 Code
+ ┃ ┣ 📄 Master_file.do            — Main master script (runs all sub-scripts)
+ ┃ ┣ 📄 Import.do                 — Data import script
+ ┃ ┣ 📄 Clean.do                  — Data cleaning script
+ ┃ ┣ 📄 Test.do                   — Data correction / transformation
+ ┃ ┣ 📄 Merge.do                  — Dataset merging script
+ ┃ ┣ 📄 Generate.do               — Variable generation
+ ┃ ┣ 📄 Visualize.do              — Figure generation
+ ┃ ┗ 📄 Regress.do                — Regression analysis
  │
- ┣ 📂 code
- ┃ ┣ 🟦 GEE               — Google Earth Engine JavaScript scripts
- ┃ ┗ 🟩 stata             — Cleaning + DID + Event Study + Placebo tests
+ ┣ 📂 Data
+ ┃ ┣ 📁 raw                       — Raw datasets (e.g., GEE data, ERA5)
+ ┃ ┗ 📁 processed                 — Cleaned & analysis-ready datasets
  │
- ┣ 📂 output
- ┃ ┣ 🖼️ figures           — Event study plots, placebo plots, NO2 maps
- ┃ ┗ 📊 tables            — Summary statistics, regression tables
+ ┣ 📂 Output
+ ┃ ┣ 📁 Figures                   — Figures (named consistently with report: Fig1, Fig2…)
+ ┃ ┣ 📁 Tables                    — Tables (named consistently with report: Table1…)
+ ┃ ┗ 📄 final_report.pdf          — Final project report
  │
- ┣ 📂 docs
- ┃ ┗ 📄 Roadmap.pdf       — Project roadmap / methodology document
- │
- ┗ 📘 README.md           — Project documentation (this file)
+ ┗ 📘 README.md                   — This documentation file
 </pre>
 
 </details>
