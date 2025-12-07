@@ -98,22 +98,44 @@ Meteorological variables used as controls:
 
 <pre>
 📁 Group_6
- ┣ 📂 data
- ┃ ┣ 📁 raw               — Raw GEE exports (NO2, ERA5)
- ┃ ┗ 📁 processed         — Cleaned & merged panel datasets
- │
- ┣ 📂 code
- ┃ ┣ 🟦 GEE               — Google Earth Engine JavaScript scripts
- ┃ ┗ 🟩 stata             — Cleaning + DID + Event Study + Placebo tests
- │
- ┣ 📂 output
- ┃ ┣ 🖼️ figures           — Event study plots, placebo plots, NO2 maps
- ┃ ┗ 📊 tables            — Summary statistics, regression tables
- │
- ┣ 📂 docs
- ┃ ┗ 📄 Roadmap.pdf       — Project roadmap / methodology document
- │
- ┗ 📘 README.md           — Project documentation (this file)
+│
+├─ 📂 Code
+│   │
+│   ├─ 📂 Google Earth Engine
+│   │   ├─ master.js (if applicable)
+│   │   └─ 📂 baseline
+│   │       └─ (baseline GEE scripts)
+│   │
+│   └─ 📂 Stata
+│       ├─ master.do                 
+│       │
+│       └─ 📂 baseline               
+│           ├─ bl_cleaning.do
+│           ├─ bl_descriptive statistics.do
+│           ├─ bl_eventstudy.do
+│           ├─ bl_generate.do
+│           ├─ bl_merge.do
+│           ├─ bl_placebotest.do
+│           ├─ bl_regression.do
+│           ├─ bl_test.do
+│           └─ bl_visualise.do
+│
+├─ 📂 Data
+│   ├─ 📂 Google Earth Engine
+│   │   ├─ 📂 Data_raw_GEE          — Raw GEE exports
+│   │   └─ 📂 Data_processed_GEE    — Processed GEE datasets
+│   │
+│   └─ 📂 Stata
+│       ├─ 📂 Data_raw_Stata        — Raw Stata data
+│       └─ 📂 Data_processed_Stata  — Cleaned & merged datasets
+│
+├─ 📂 Output
+│   ├─ 📂 Output_GEE                — Maps / figures from GEE
+│   ├─ 📂 Output_Stata              — Figures & tables generated using Stata
+|   └─ 📂 Report
+│
+└─ 📘 README.md                     — Project documentation
+
 </pre>
 
 </details>
