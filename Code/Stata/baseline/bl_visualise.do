@@ -83,7 +83,7 @@ graph export "$output/Fig_TimeSeries_Trend.pdf", replace
 * Context:   Since the dataset is London-only, "Regional Comparison" 
 * refers to the spatial split defined by the ULEZ boundary.
 *----------------------------------------------------------------------
-
+cd "F:\Onedrive映射\1kcl\ESG\7QQMM906 Environmental Economics\Group Assessment"
 * 1. Prepare Data
 use "data_after_cleaning.dta", clear
 
@@ -99,18 +99,6 @@ label values treatment trt_lbl
 * Figure A: Bar Chart with 95% Confidence Intervals (Region Comparison)
 * Purpose: Show the statistical difference in means between regions.
 *----------------------------------------------------------------------
-graph bar ln_NO2, over(treatment, label(labsize(small))) ///
-    asyvars bar(1, fcolor(gs12) lcolor(black)) bar(2, fcolor(gs6) lcolor(black)) ///
-    blabel(bar, format(%9.2f) pos(center) color(white)) ///
-    ytitle("Mean Log NO2 Concentration (µg/m³)") ///
-    title("Regional Comparison: Inner vs. Outer London") ///
-    subtitle("Average NO2 Levels with 95% Confidence Intervals") ///
-    legend(off) ///
-    graphregion(color(white)) ///
-    name(Fig_Region_Bar, replace)
-
-* Note: To add explicit Error Bars to a bar chart requires 'twoway bar' + 'rcap'.
-* The code below generates a publication-quality version with CI.
 
 preserve
     collapse (mean) mean_no2=ln_NO2 (sd) sd_no2=ln_NO2 (count) n=ln_NO2, by(treatment)
@@ -128,6 +116,28 @@ preserve
            
     graph export "$output/Fig_CrossSection_Region_Bar.png", replace width(2400)
 restore
+
+*----------------------------------------------------------------------
+* Figure A: Histogram with Kernel Density Overlay
+* Purpose: Visual check for Skewness (tails) and Multimodality (peaks).
+*----------------------------------------------------------------------
+
+* 1. Prepare Data
+use "data_after_cleaning.dta", clear
+set scheme s1mono
+graph set window fontface "Times New Roman"
+
+twoway (histogram ln_NO2, width(0.1) color(gs14) lcolor(gs10) density) ///
+       (kdensity ln_NO2, lcolor(black) lwidth(medium)), ///
+       title("Distribution of Log NO2 Concentration") ///
+       subtitle("Histogram and Kernel Density Estimate") ///
+       xtitle("Log NO2 Concentration") ///
+       ytitle("Density") ///
+       legend(order(1 "Histogram" 2 "Kernel Density") ring(0) pos(2)) ///
+       note("Check for: 1. Asymmetry (Skewness)  2. Multiple Peaks (Multimodality)") ///
+       graphregion(color(white))
+
+graph export "$output/Fig_Dist_Histogram.png", replace width(2400)
 
 *----------------------------------------------------------------------
 * Figure B: Kernel Density Estimate (Distributional Differences)
